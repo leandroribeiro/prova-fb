@@ -1,15 +1,12 @@
-namespace mars_robot.core.Models;
+namespace mars_robot.core.Domain.Models;
 
 public class Plateau
 {
     // x axis
     public int AxisXMin;
-    public int AxisXMax { private set; get; }
-    
+
     // y axis
     public int AxisYMin;
-    public int AxisYMax { private set; get; }
-    public List<Rover> Rovers { private set; get; }
 
     public Plateau(int axisXMax, int axisYMax)
     {
@@ -17,12 +14,15 @@ public class Plateau
         AxisXMax = axisXMax;
         AxisYMin = 0;
         AxisYMax = axisYMax;
-        this.Rovers = new List<Rover>();
+        Rovers = new List<Rover>();
     }
+
+    public int AxisXMax { get; }
+    public int AxisYMax { get; }
+    public List<Rover> Rovers { get; }
 
     public void AddRover(ref Rover rover)
     {
-        rover.SetPlateau(this);
-        this.Rovers.Add(rover);
+        Rovers.Add(rover);
     }
 }

@@ -1,4 +1,4 @@
-namespace mars_robot.core.Exceptions;
+namespace mars_robot.core.Domain.Exceptions;
 
 public class InvalidDirectionException : ArgumentOutOfRangeException
 {
