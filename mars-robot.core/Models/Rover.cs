@@ -8,13 +8,13 @@ public class Rover
 
     public int X { private set; get; }
     public int Y { private set; get; }
-    public Cardinal.CardinalPoints _cardinal { private set; get; }
+    public CardinalPoint Cardinal { private set; get; }
 
     public Rover(int x, int y, char direction)
     {
         X = x;
         Y = y;
-        _cardinal = Cardinal.ParseDirection(direction);
+        Cardinal = CardinalPoint.Parse(direction);
     }
 
     private void increaseY()
@@ -42,36 +42,29 @@ public class Rover
         {
             case DIRECTION_LEFT_KEY:
             {
-                var cardinalNumber = (int)_cardinal;
-                cardinalNumber = (cardinalNumber > (int)Cardinal.CardinalPoints.North
-                    ? cardinalNumber - 1
-                    : (int)Cardinal.CardinalPoints.West);
-                _cardinal = (Cardinal.CardinalPoints)cardinalNumber;
+                Cardinal = Cardinal.MoveToLeft();
                 break;
             }
             case DIRECTION_RIGHT_KEY:
             {
-                var cardinalNumber = (int)_cardinal;
-                cardinalNumber = (cardinalNumber < (int)Cardinal.CardinalPoints.West
-                    ? cardinalNumber + 1
-                    : (int)Cardinal.CardinalPoints.North);
-                _cardinal = (Cardinal.CardinalPoints)cardinalNumber;
+                Cardinal = Cardinal.MoveToRight();
                 break;
             }
             case DIRECTION_MOVE_KEY:
             {
-                switch (_cardinal)
+                // TODO is?
+                switch (Cardinal.Key)
                 {
-                    case Cardinal.CardinalPoints.North:
+                    case CardinalPoint.CARDINAL_NORTH:
                         increaseY();
                         break;
-                    case Cardinal.CardinalPoints.South:
+                    case CardinalPoint.CARDINAL_SOUTH:
                         decreaseY();
                         break;
-                    case Cardinal.CardinalPoints.East:
+                    case CardinalPoint.CARDINAL_EAST:
                         increaseX();
                         break;
-                    case Cardinal.CardinalPoints.West:
+                    case CardinalPoint.CARDINAL_WEST:
                         decreaseX();
                         break;
                 }
