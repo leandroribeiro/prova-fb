@@ -2,6 +2,7 @@ namespace mars_robot.core.Models;
 
 public class Rover
 {
+    private readonly string _commands;
     const char DIRECTION_LEFT_KEY = 'L';
     const char DIRECTION_RIGHT_KEY = 'R';
     const char DIRECTION_MOVE_KEY = 'M';
@@ -10,11 +11,12 @@ public class Rover
     public int Y { private set; get; }
     public CardinalPoint Cardinal { private set; get; }
 
-    public Rover(int x, int y, char direction)
+    public Rover(int x, int y, char cardinalPoint, string commands)
     {
         X = x;
         Y = y;
-        Cardinal = CardinalPoint.Parse(direction);
+        Cardinal = CardinalPoint.Parse(cardinalPoint);
+        _commands = commands;
     }
 
     private void increaseY()
@@ -36,7 +38,7 @@ public class Rover
         this.X -= 1;
     }
     
-    public void SetDirection(char direction)
+    private void SetDirection(char direction)
     {
         switch (direction)
         {
@@ -73,6 +75,16 @@ public class Rover
             }
             default:
                 throw new ArgumentOutOfRangeException(direction.ToString(), "A direção informada é inválida.");
+        }
+    }
+
+    public void Run()
+    {
+        var commands = this._commands.ToCharArray();
+
+        foreach (var command in commands)
+        {
+            SetDirection(command);
         }
     }
 }
