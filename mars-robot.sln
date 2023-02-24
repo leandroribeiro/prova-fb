@@ -4,6 +4,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mars-robot.core", "mars-rob
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mars-robot.core.tests", "mars-robot.core.tests\mars-robot.core.tests.csproj", "{5187FB1B-59E8-4C2F-94DB-157050AEA188}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9C7FE23F-EC28-471C-8B8F-ED81B48CFB03}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{60BFA6F9-BFA4-4E1D-9A36-FB316D7001F3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{BE403484-810E-4FC2-8789-57F2F94CAF19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +24,9 @@ Global
 		{5187FB1B-59E8-4C2F-94DB-157050AEA188}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5187FB1B-59E8-4C2F-94DB-157050AEA188}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5187FB1B-59E8-4C2F-94DB-157050AEA188}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E1639C7F-4A2F-4B95-9B66-5C8408041C2A} = {9C7FE23F-EC28-471C-8B8F-ED81B48CFB03}
+		{5187FB1B-59E8-4C2F-94DB-157050AEA188} = {60BFA6F9-BFA4-4E1D-9A36-FB316D7001F3}
 	EndGlobalSection
 EndGlobal
