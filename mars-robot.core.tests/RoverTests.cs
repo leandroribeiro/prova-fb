@@ -1,4 +1,5 @@
 using System;
+using mars_robot.core.Exceptions;
 using mars_robot.core.Models;
 using Xunit;
 
@@ -6,14 +7,50 @@ namespace mars_robot.core.tests;
 
 public class RoverTests
 {
-    [Theory]
-    [InlineData(1, 2, 'N', "", CardinalPoint.CARDINAL_NORTH)]
-    [InlineData(1, 2, 'E', "", CardinalPoint.CARDINAL_EAST)]
-    [InlineData(1, 2, 'S', "", CardinalPoint.CARDINAL_SOUTH)]
-    [InlineData(1, 2, 'W', "", CardinalPoint.CARDINAL_WEST)]
-    public void Test_Without_CardinalPoint(int x, int y, char cardinal, string commands, char cardinalTarget)
+    private readonly Plateau _basePlateau;
+
+    public RoverTests()
     {
-        // TODO
+        this._basePlateau = new Plateau(5, 5);
+    }
+
+    
+    [Theory]
+    [InlineData(1, 2, 'N', "LMMMMMMMMMMMMMMMMMMMM", CardinalPoint.CARDINAL_NORTH)]
+    public void Test_Moviment_out_Plateau_Min_AxisX(int x, int y, char cardinal, string commands, char cardinalTarget)
+    {
+        var rover = new Rover(x, y, cardinal, commands, _basePlateau);
+
+        Assert.Throws<InvalidMovimentException>("X", () => rover.Run());
+    }
+    
+    
+    [Theory]
+    [InlineData(1, 2, 'N', "RRMMMMMMMMMMMMMMMMMMMM", CardinalPoint.CARDINAL_NORTH)]
+    public void Test_Moviment_out_Plateau_Min_AxisY(int x, int y, char cardinal, string commands, char cardinalTarget)
+    {
+        var rover = new Rover(x, y, cardinal, commands, _basePlateau);
+
+        Assert.Throws<InvalidMovimentException>("Y", () => rover.Run());
+    }
+    
+    
+    [Theory]
+    [InlineData(1, 2, 'N', "RMMMMMMMMMMMMMMMMMMMM", CardinalPoint.CARDINAL_NORTH)]
+    public void Test_Moviment_out_Plateau_Max_AxisX(int x, int y, char cardinal, string commands, char cardinalTarget)
+    {
+        var rover = new Rover(x, y, cardinal, commands, _basePlateau);
+
+        Assert.Throws<InvalidMovimentException>("X", () => rover.Run());
+    }
+    
+    [Theory]
+    [InlineData(1, 2, 'N', "LMLMLMLMMMMMMMMMMMMMMMMMMM", CardinalPoint.CARDINAL_NORTH)]
+    public void Test_Moviment_out_Plateau_Max_AxisY(int x, int y, char cardinal, string commands, char cardinalTarget)
+    {
+        var rover = new Rover(x, y, cardinal, commands, _basePlateau);
+
+        Assert.Throws<InvalidMovimentException>("Y", () => rover.Run());
     }
 
     [Theory]
@@ -23,7 +60,7 @@ public class RoverTests
     [InlineData(1, 2, 'W', "", CardinalPoint.CARDINAL_WEST)]
     public void Test_Without_Movement(int x, int y, char cardinal, string commands, char cardinalTarget)
     {
-        var rover = new Rover(x, y, cardinal, commands);
+        var rover = new Rover(x, y, cardinal, commands, _basePlateau);
 
         rover.Run();
 
@@ -43,7 +80,7 @@ public class RoverTests
     [InlineData(1, 2, 'W', "L", CardinalPoint.CARDINAL_SOUTH)]
     public void Test_Single_Direction_Movement(int x, int y, char cardinal, string commands, char cardinalTarget)
     {
-        var rover = new Rover(x, y, cardinal, commands);
+        var rover = new Rover(x, y, cardinal, commands, _basePlateau);
 
         rover.Run();
 
@@ -54,9 +91,10 @@ public class RoverTests
     [InlineData(1, 2, 'X')]
     [InlineData(1, 2, 'Y')]
     [InlineData(1, 2, 'Z')]
+    [InlineData(1, 2, ' ')]
     public void Test_Invalid_Cardinal_Point(int x, int y, char cardinal)
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => new Rover(x, y, cardinal, ""));
+        Assert.Throws<InvalidCardinalException>(() => new Rover(x, y, cardinal, "", _basePlateau));
     }
 
     [Theory]
@@ -65,9 +103,9 @@ public class RoverTests
     [InlineData(1, 2, 'S', "Z")]
     public void Test_Invalid_Direction_Movement(int x, int y, char cardinal, string commands)
     {
-        var rover = new Rover(x, y, cardinal, commands);
+        var rover = new Rover(x, y, cardinal, commands, _basePlateau);
 
-        Assert.Throws<ArgumentOutOfRangeException>(() => rover.Run());
+        Assert.Throws<InvalidDirectionException>("Direction", () => rover.Run());
     }
 
 
@@ -82,7 +120,7 @@ public class RoverTests
         int targetY,
         char cardinalTarget)
     {
-        var rover = new Rover(x, y, cardinal, commands);
+        var rover = new Rover(x, y, cardinal, commands, _basePlateau);
 
         rover.Run();
 

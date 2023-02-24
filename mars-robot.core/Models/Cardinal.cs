@@ -1,3 +1,5 @@
+using mars_robot.core.Exceptions;
+
 namespace mars_robot.core.Models;
 
 public class CardinalPoint
@@ -31,7 +33,7 @@ public class CardinalPoint
             CARDINAL_SOUTH => South,
             CARDINAL_EAST => East,
             CARDINAL_WEST => West,
-            _ => throw new ArgumentOutOfRangeException(cardinal.ToString(), "O cardinal informado é inválido.")
+            _ => throw new InvalidCardinalException(cardinal)
         };
     }
 

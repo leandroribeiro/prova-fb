@@ -1,8 +1,9 @@
+using mars_robot.core.Exceptions;
+
 namespace mars_robot.core.Models;
 
 public class Rover
 {
-    private readonly string _commands;
     const char DIRECTION_LEFT_KEY = 'L';
     const char DIRECTION_RIGHT_KEY = 'R';
     const char DIRECTION_MOVE_KEY = 'M';
@@ -10,34 +11,58 @@ public class Rover
     public int X { private set; get; }
     public int Y { private set; get; }
     public CardinalPoint Cardinal { private set; get; }
+    public string Commands { private set; get; }
+    public Plateau Plateau { private set; get; }
 
-    public Rover(int x, int y, char cardinalPoint, string commands)
+    public Rover(int x, int y, char cardinalPoint, string commands, Plateau plateau)
     {
         X = x;
         Y = y;
         Cardinal = CardinalPoint.Parse(cardinalPoint);
-        _commands = commands;
+        Commands = commands;
+        Plateau = plateau;
     }
 
-    private void increaseY()
+    private void IncreaseY()
     {
-        this.Y += 1;
+        var newValue = this.Y + 1;
+
+        if (newValue > this.Plateau.AxisYMax)
+            throw new InvalidMovimentException("Y", newValue);
+
+        this.Y = newValue;
     }
-    private void decreaseY()
+
+    private void DecreaseY()
     {
-        this.Y -= 1;
+        var newValue = this.Y - 1;
+
+        if (newValue < this.Plateau.AxisYMin)
+            throw new InvalidMovimentException("Y", newValue);
+
+        this.Y = newValue;
     }
-    
-    private void increaseX()
+
+    private void IncreaseX()
     {
-        this.X += 1;
+        var newValue = this.X + 1;
+
+        if (newValue > this.Plateau.AxisXMax)
+            throw new InvalidMovimentException("X", newValue);
+
+        this.X = newValue;
     }
-    
-    private void decreaseX()
+
+    private void DecreaseX()
     {
-        this.X -= 1;
+        var newValue = this.X - 1;
+
+        if (newValue < this.Plateau.AxisXMin)
+            throw new InvalidMovimentException("X", newValue);
+
+        this.X = newValue;
     }
-    
+
     private void SetDirection(char direction)
     {
         switch (direction)
@@ -54,37 +79,44 @@ public class Rover
             }
             case DIRECTION_MOVE_KEY:
             {
-                // TODO is?
-                switch (Cardinal.Key)
-                {
-                    case CardinalPoint.CARDINAL_NORTH:
-                        increaseY();
-                        break;
-                    case CardinalPoint.CARDINAL_SOUTH:
-                        decreaseY();
-                        break;
-                    case CardinalPoint.CARDINAL_EAST:
-                        increaseX();
-                        break;
-                    case CardinalPoint.CARDINAL_WEST:
-                        decreaseX();
-                        break;
-                }
-
+                MoveAhead();
                 break;
             }
             default:
-                throw new ArgumentOutOfRangeException(direction.ToString(), "A direção informada é inválida.");
+                throw new InvalidDirectionException(direction);
+        }
+    }
+
+    private void MoveAhead()
+    {
+        // TODO is?
+        switch (Cardinal.Key)
+        {
+            case CardinalPoint.CARDINAL_NORTH:
+                IncreaseY();
+                break;
+            case CardinalPoint.CARDINAL_SOUTH:
+                DecreaseY();
+                break;
+            case CardinalPoint.CARDINAL_EAST:
+                IncreaseX();
+                break;
+            case CardinalPoint.CARDINAL_WEST:
+                DecreaseX();
+                break;
         }
     }
 
     public void Run()
     {
-        var commands = this._commands.ToCharArray();
+        var commands = this.Commands.ToCharArray();
 
         foreach (var command in commands)
-        {
             SetDirection(command);
-        }
+    }
+
+    public void SetPlateau(Plateau plateau)
+    {
+        this.Plateau = plateau;
     }
 }
