@@ -1,18 +1,20 @@
 using System;
 using System.Linq;
-using mars_robot.core.UseCases;
+using mars_robot.core.Application.UseCases;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace mars_robot.core.tests;
+namespace mars_robot.core.tests.Application;
 
 public class ParseStringInstructionsTests
 {
     private readonly ITestOutputHelper _output;
+    private readonly ParseStringInstructions _parser;
 
     public ParseStringInstructionsTests(ITestOutputHelper output)
     {
         _output = output;
+        _parser =  new ParseStringInstructions();
     }
 
     [Fact]
@@ -25,14 +27,10 @@ public class ParseStringInstructionsTests
                     $"3 3 E {Environment.NewLine}" +
                     $"MMRMMRMRRM";
 
-        var parser = new ParseStringInstructions();
-
         // ACT
-        parser.Execute(input);
+        var plateau = _parser.Execute(input);
 
         // ASSERT
-        var plateau = parser.Plateau;
-        
         plateau.Rovers.ForEach(r => _output.WriteLine(r.ToString()));
         
         Assert.Equal(5, plateau.AxisXMax);
@@ -41,13 +39,13 @@ public class ParseStringInstructionsTests
 
         var roverOne = plateau.Rovers.First();
         Assert.Equal("LMLMLMLMM", roverOne.Commands);
-        Assert.Equal('N', roverOne.CardinalPoint.Key);
+        Assert.Equal('N', roverOne.Cardinal.Key);
         Assert.Equal(1, roverOne.X);
         Assert.Equal(3, roverOne.Y);
 
         var roverTwo = plateau.Rovers.Last();
         Assert.Equal("MMRMMRMRRM", roverTwo.Commands);
-        Assert.Equal('E', roverTwo.CardinalPoint.Key);
+        Assert.Equal('E', roverTwo.Cardinal.Key);
         Assert.Equal(5, roverTwo.X);
         Assert.Equal(1, roverTwo.Y);
     }
@@ -63,13 +61,10 @@ public class ParseStringInstructionsTests
                     $"3 E {Environment.NewLine}" +
                     $"MMRMMRMRRM";
 
-        var parser = new ParseStringInstructions();
-
         // ACT
-        parser.Execute(input);
+        var plateau = _parser.Execute(input);
 
         // ASSERT
-        var plateau = parser.Plateau;
         
         plateau.Rovers.ForEach(r => _output.WriteLine(r.ToString()));
         
@@ -79,13 +74,13 @@ public class ParseStringInstructionsTests
 
         var roverOne = plateau.Rovers.First();
         Assert.Equal("LMLMLMLMM", roverOne.Commands);
-        Assert.Equal('N', roverOne.CardinalPoint.Key);
+        Assert.Equal('N', roverOne.Cardinal.Key);
         Assert.Equal(1, roverOne.X);
         Assert.Equal(3, roverOne.Y);
 
         var roverTwo = plateau.Rovers.Last();
         Assert.Equal("MMRMMRMRRM", roverTwo.Commands);
-        Assert.Equal('E', roverTwo.CardinalPoint.Key);
+        Assert.Equal('E', roverTwo.Cardinal.Key);
         Assert.Equal(5, roverTwo.X);
         Assert.Equal(1, roverTwo.Y);
     }
@@ -100,14 +95,10 @@ public class ParseStringInstructionsTests
                     $"3 3 E {Environment.NewLine}" +
                     $"MMRMMRMRRM";
 
-        var parser = new ParseStringInstructions();
-
         // ACT
-        parser.Execute(input);
+        var plateau = _parser.Execute(input);
 
         // ASSERT
-        var plateau = parser.Plateau;
-        
         plateau.Rovers.ForEach(r => _output.WriteLine(r.ToString()));
         
         Assert.Equal(5, plateau.AxisXMax);
@@ -116,13 +107,13 @@ public class ParseStringInstructionsTests
 
         var roverOne = plateau.Rovers.First();
         Assert.Equal("LMLMLMLMM", roverOne.Commands);
-        Assert.Equal('N', roverOne.CardinalPoint.Key);
+        Assert.Equal('N', roverOne.Cardinal.Key);
         Assert.Equal(1, roverOne.X);
         Assert.Equal(3, roverOne.Y);
 
         var roverTwo = plateau.Rovers.Last();
         Assert.Equal("MMRMMRMRRM", roverTwo.Commands);
-        Assert.Equal('E', roverTwo.CardinalPoint.Key);
+        Assert.Equal('E', roverTwo.Cardinal.Key);
         Assert.Equal(5, roverTwo.X);
         Assert.Equal(1, roverTwo.Y);
     }

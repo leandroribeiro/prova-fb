@@ -1,16 +1,15 @@
 using System.Text.RegularExpressions;
 using mars_robot.core.Domain.Models;
 
-namespace mars_robot.core.UseCases;
+namespace mars_robot.core.Application.UseCases;
 
 public class ParseStringInstructions : IParseInstructions
 {
-    public Plateau Plateau { private set; get; }
+    private Plateau Plateau { set; get; }
 
-    public void Execute<String>(String source)
+    public Plateau Execute(string source)
     {
         var lines = source
-            .ToString()
             .Split(Environment.NewLine);
 
         ParseHeader(lines);
@@ -18,6 +17,8 @@ public class ParseStringInstructions : IParseInstructions
         ParseLines(lines);
 
         Plateau.Rovers.ForEach(r => r.Run());
+
+        return Plateau;
     }
     
     private void ParseHeader(string[] lines)
@@ -34,9 +35,8 @@ public class ParseStringInstructions : IParseInstructions
             var roverPoints = lines[i];
             var roverCommands = lines[i + 1];
 
-            var rover = ParseRover(roverPoints, roverCommands);
+            ParseRover(roverPoints, roverCommands);
 
-            Plateau.AddRover(ref rover);
         }
     }
 

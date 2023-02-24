@@ -21,7 +21,7 @@ public class Plateau
     public int AxisYMax { get; }
     public List<Rover> Rovers { get; }
 
-    public void AddRover(ref Rover rover)
+    public void AddRover(Rover rover)
     {
         Rovers.Add(rover);
     }

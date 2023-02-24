@@ -3,7 +3,7 @@ using mars_robot.core.Domain.Exceptions;
 using mars_robot.core.Domain.Models;
 using Xunit;
 
-namespace mars_robot.core.tests;
+namespace mars_robot.core.tests.Domain;
 
 public class PlateauTests
 {
@@ -16,14 +16,12 @@ public class PlateauTests
         var plateau = new Plateau(5, 5);
         var roverOne = new Rover(roverX, roverY, roverCardinal, roverCommands, plateau);
 
-        plateau.AddRover(ref roverOne);
-
         foreach (var rover in plateau.Rovers)
         {
             rover.Run();
         }
 
-        Assert.Equal(targetCardinal, roverOne.CardinalPoint.Key);
+        Assert.Equal(targetCardinal, roverOne.Cardinal.Key);
         Assert.Equal(targetX, roverOne.X);
         Assert.Equal(targetY, roverOne.Y);
     }
@@ -39,29 +37,26 @@ public class PlateauTests
         };
 
         for (var i = 0; i < rovers.Length; i++)
-            plateau.AddRover(ref rovers[i]);
-
-        for (var i = 0; i < rovers.Length; i++)
             rovers[i].Run();
 
         var roverOne = rovers.First();
         var roverTwo = rovers.Last();
 
-        Assert.Equal(CardinalPoint.NORTH, roverOne.CardinalPoint.Key);
+        Assert.Equal(CardinalPoint.NORTH, roverOne.Cardinal.Key);
         Assert.Equal(1, roverOne.X);
         Assert.Equal(3, roverOne.Y);
 
-        Assert.Equal(CardinalPoint.EAST, roverTwo.CardinalPoint.Key);
+        Assert.Equal(CardinalPoint.EAST, roverTwo.Cardinal.Key);
         Assert.Equal(5, roverTwo.X);
         Assert.Equal(1, roverTwo.Y);
 
         var plateauRoverOne = plateau.Rovers.First();
-        Assert.Equal(CardinalPoint.NORTH, plateauRoverOne.CardinalPoint.Key);
+        Assert.Equal(CardinalPoint.NORTH, plateauRoverOne.Cardinal.Key);
         Assert.Equal(1, plateauRoverOne.X);
         Assert.Equal(3, plateauRoverOne.Y);
 
         var plateauRoverTwo = plateau.Rovers.Last();
-        Assert.Equal(CardinalPoint.EAST, plateauRoverTwo.CardinalPoint.Key);
+        Assert.Equal(CardinalPoint.EAST, plateauRoverTwo.Cardinal.Key);
         Assert.Equal(5, plateauRoverTwo.X);
         Assert.Equal(1, plateauRoverTwo.Y);
     }
@@ -75,8 +70,6 @@ public class PlateauTests
         var plateau = new Plateau(5, 5);
         var roverOne = new Rover(roverX, roverY, roverCardinal, roverCommands, plateau);
 
-        plateau.AddRover(ref roverOne);
-
-        Assert.Throws<InvalidMovementException>(axiosError, () => plateau.Rovers.First().Run());
+        Assert.Throws<InvalidMovementException>(axiosError, () => roverOne.Run());
     }
 }

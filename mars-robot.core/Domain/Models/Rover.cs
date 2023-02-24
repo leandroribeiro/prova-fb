@@ -12,8 +12,10 @@ public class Rover
         Plateau = plateau;
         X = x;
         Y = y;
-        CardinalPoint = Models.CardinalPoint.Parse(cardinalPoint);
+        Cardinal = CardinalPoint.Parse(cardinalPoint);
         Commands = commands.ToUpper();
+        
+        Plateau.AddRover(this);
     }
 
     private int _x;
@@ -48,7 +50,7 @@ public class Rover
         get => _y;
     }
 
-    public CardinalPoint CardinalPoint { private set; get; }
+    public CardinalPoint Cardinal { private set; get; }
 
     public string Commands { private set; get; }
 
@@ -83,12 +85,12 @@ public class Rover
         {
             case Direction.LEFT:
             {
-                CardinalPoint = CardinalPoint.MoveToLeft();
+                Cardinal = Cardinal.MoveToLeft();
                 break;
             }
             case Direction.RIGHT:
             {
-                CardinalPoint = CardinalPoint.MoveToRight();
+                Cardinal = Cardinal.MoveToRight();
                 break;
             }
             case Direction.MOVE:
@@ -101,7 +103,7 @@ public class Rover
 
     private void MoveAhead()
     {
-        switch (CardinalPoint.Key)
+        switch (Cardinal.Key)
         {
             case CardinalPoint.NORTH:
                 IncreaseY();
@@ -130,6 +132,6 @@ public class Rover
     {
         return $"{AXIS_X}: {this.X} {Environment.NewLine}" +
                $"{AXIS_Y}: {this.Y} {Environment.NewLine}" +
-               $"Cardinal: {this.CardinalPoint.Key}";
+               $"Cardinal: {this.Cardinal.Key}";
     }
 }

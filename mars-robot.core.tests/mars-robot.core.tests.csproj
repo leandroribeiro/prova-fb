@@ -25,4 +25,10 @@
       <ProjectReference Include="..\mars-robot.core\mars-robot.core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Data\Demo1.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

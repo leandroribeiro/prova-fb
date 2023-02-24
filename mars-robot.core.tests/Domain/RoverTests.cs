@@ -1,9 +1,8 @@
-using System;
 using mars_robot.core.Domain.Exceptions;
 using mars_robot.core.Domain.Models;
 using Xunit;
 
-namespace mars_robot.core.tests;
+namespace mars_robot.core.tests.Domain;
 
 public class RoverTests
 {
@@ -77,7 +76,7 @@ public class RoverTests
 
         rover.Run();
 
-        Assert.Equal(cardinalTarget, rover.CardinalPoint.Key);
+        Assert.Equal(cardinalTarget, rover.Cardinal.Key);
         Assert.Equal(x, rover.X);
         Assert.Equal(y, rover.Y);
     }
@@ -97,7 +96,7 @@ public class RoverTests
 
         rover.Run();
 
-        Assert.Equal(cardinalTarget, rover.CardinalPoint.Key);
+        Assert.Equal(cardinalTarget, rover.Cardinal.Key);
     }
 
     [Theory]
@@ -137,7 +136,7 @@ public class RoverTests
 
         rover.Run();
 
-        Assert.Equal(cardinalTarget, rover.CardinalPoint.Key);
+        Assert.Equal(cardinalTarget, rover.Cardinal.Key);
         Assert.Equal(targetX, rover.X);
         Assert.Equal(targetY, rover.Y);
     }
