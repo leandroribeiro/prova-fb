@@ -13,7 +13,7 @@ void Run()
     {
         Console.WriteLine(Text.Green("Type the instructions filepath:"));
 
-        var input = Console.ReadLine();
+        var input = Console.ReadLine() ?? "";
         var output = parser.Execute(input);
 
         output.Rovers.ForEach(x => Console.WriteLine(x.ToString()));
