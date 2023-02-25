@@ -1,11 +1,13 @@
 using System.Text.RegularExpressions;
+using mars_robot.core.Application.Exceptions;
 using mars_robot.core.Domain.Models;
 
 namespace mars_robot.core.Application.UseCases;
 
 public class ParseStringInstructions : IParseInstructions
 {
-    private Plateau Plateau { set; get; }
+    public Plateau Plateau { private set; get; }
+    public Rover CurrentRover { private set; get; }
 
     public Plateau Execute(string source)
     {
@@ -16,11 +18,15 @@ public class ParseStringInstructions : IParseInstructions
 
         ParseLines(lines);
 
-        Plateau.Rovers.ForEach(r => r.Run());
+        Plateau.Rovers.ForEach(r =>
+        {
+            CurrentRover = r;
+            r.Run();
+        });
 
         return Plateau;
     }
-    
+
     private void ParseHeader(string[] lines)
     {
         var head = lines.First();
@@ -36,7 +42,6 @@ public class ParseStringInstructions : IParseInstructions
             var roverCommands = lines[i + 1];
 
             ParseRover(roverPoints, roverCommands);
-
         }
     }
 
@@ -45,7 +50,7 @@ public class ParseStringInstructions : IParseInstructions
         var match = Regex.Match(head, "(?<x>[0-9])\\s+(?<y>[0-9])");
 
         if (!match.Success)
-            throw new InvalidDataException();
+            throw new InvalidLineException(head);
 
         var xAxis = int.Parse(match.Groups["x"].Value);
         var yAxis = int.Parse(match.Groups["y"].Value);
@@ -60,7 +65,7 @@ public class ParseStringInstructions : IParseInstructions
         var roverPointsMatch = Regex.Match(roverPointsLine, roverPointsReg, RegexOptions.IgnoreCase);
 
         if (!roverPointsMatch.Success)
-            throw new InvalidDataException();
+            throw new InvalidLineException(roverPointsLine);
 
         var xAxis = int.Parse(roverPointsMatch.Groups["x"].Value);
         var yAxis = int.Parse(roverPointsMatch.Groups["y"].Value);
@@ -72,13 +77,13 @@ public class ParseStringInstructions : IParseInstructions
 
     private string ParseRoverCommands(string line)
     {
-        var commands = "";
         var roverCommandLine = line;
         var roverCommandReg = $"{Direction.REGEX_PATTERN}+";
         var roverCommandMatch = Regex.Match(roverCommandLine, roverCommandReg, RegexOptions.IgnoreCase);
-        if (roverCommandMatch.Success)
-            commands = roverCommandMatch.Value;
+        
+        if (!roverCommandMatch.Success)
+            throw new InvalidLineException(line);
 
-        return commands;
+        return roverCommandMatch.Value;
     }
 }

@@ -13,20 +13,6 @@ public class RoverTests
         this._basePlateau = new Plateau(5, 5);
     }
 
-
-    [Theory]
-    [InlineData(9, 9, 'N', "LML")]
-    [InlineData(1, 9, 'N', "LML", "Y")]
-    [InlineData(-1, 9, 'N', "LML")]
-    [InlineData(-1, -1, 'N', "LML")]
-    [InlineData(9, 1, 'N', "LML")]
-    [InlineData(1, -1, 'N', "LML", "Y")]
-    public void Test_Invalid_Start_Point(int x, int y, char cardinal, string commands, string paramName = "X")
-    {
-        Assert.Throws<InvalidMovementException>(paramName, () => new Rover(x, y, cardinal, commands, _basePlateau));
-    }
-
-
     [Theory]
     [InlineData(1, 2, 'N', "LMMMMMMMMMMMMMMMMMMMM")]
     public void Test_Moviment_out_Plateau_Min_AxisX(int x, int y, char cardinal, string commands)
@@ -77,8 +63,8 @@ public class RoverTests
         rover.Run();
 
         Assert.Equal(cardinalTarget, rover.Cardinal.Key);
-        Assert.Equal(x, rover.X);
-        Assert.Equal(y, rover.Y);
+        Assert.Equal(x, rover.CurrentPosition.X);
+        Assert.Equal(y, rover.CurrentPosition.Y);
     }
 
     [Theory]
@@ -137,7 +123,7 @@ public class RoverTests
         rover.Run();
 
         Assert.Equal(cardinalTarget, rover.Cardinal.Key);
-        Assert.Equal(targetX, rover.X);
-        Assert.Equal(targetY, rover.Y);
+        Assert.Equal(targetX, rover.CurrentPosition.X);
+        Assert.Equal(targetY, rover.CurrentPosition.Y);
     }
 }

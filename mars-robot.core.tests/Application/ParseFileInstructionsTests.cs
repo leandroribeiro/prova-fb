@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using mars_robot.core.Application.UseCases;
+using mars_robot.core.Domain.Exceptions;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -38,14 +39,33 @@ public class ParseFileInstructionsTests
         var roverOne = plateau.Rovers.First();
         Assert.Equal("LMLMLMLMM", roverOne.Commands);
         Assert.Equal('N', roverOne.Cardinal.Key);
-        Assert.Equal(1, roverOne.X);
-        Assert.Equal(3, roverOne.Y);
+        Assert.Equal(1, roverOne.CurrentPosition.X);
+        Assert.Equal(3, roverOne.CurrentPosition.Y);
 
         var roverTwo = plateau.Rovers.Last();
         Assert.Equal("MMRMMRMRRM", roverTwo.Commands);
         Assert.Equal('E', roverTwo.Cardinal.Key);
-        Assert.Equal(5, roverTwo.X);
-        Assert.Equal(1, roverTwo.Y);
+        Assert.Equal(5, roverTwo.CurrentPosition.X);
+        Assert.Equal(1, roverTwo.CurrentPosition.Y);
+    }
+    
+    [Fact]
+    public void Parse_With_Invalid_Movement_Test()
+    {
+        // ARRANGE
+        var path = Environment.CurrentDirectory;
+        var filePath = $"{path}/Data/Demo2.txt";
+
+        var parser = new ParseFileInstructions();
+
+        // ACT
+        // ASSERT
+        Assert.Throws<InvalidMovementException>("Y", () => parser.Execute(filePath));
+        Assert.NotNull(parser.CurrentRover);
+        Assert.NotNull(parser.CurrentRover.StartPosition);
+        Assert.NotEmpty(parser.CurrentRover.Commands);
+        
+        
     }
     
 }

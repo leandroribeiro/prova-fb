@@ -22,8 +22,8 @@ public class PlateauTests
         }
 
         Assert.Equal(targetCardinal, roverOne.Cardinal.Key);
-        Assert.Equal(targetX, roverOne.X);
-        Assert.Equal(targetY, roverOne.Y);
+        Assert.Equal(targetX, roverOne.CurrentPosition.X);
+        Assert.Equal(targetY, roverOne.CurrentPosition.Y);
     }
 
     [Fact]
@@ -43,22 +43,22 @@ public class PlateauTests
         var roverTwo = rovers.Last();
 
         Assert.Equal(CardinalPoint.NORTH, roverOne.Cardinal.Key);
-        Assert.Equal(1, roverOne.X);
-        Assert.Equal(3, roverOne.Y);
+        Assert.Equal(1, roverOne.CurrentPosition.X);
+        Assert.Equal(3, roverOne.CurrentPosition.Y);
 
         Assert.Equal(CardinalPoint.EAST, roverTwo.Cardinal.Key);
-        Assert.Equal(5, roverTwo.X);
-        Assert.Equal(1, roverTwo.Y);
+        Assert.Equal(5, roverTwo.CurrentPosition.X);
+        Assert.Equal(1, roverTwo.CurrentPosition.Y);
 
         var plateauRoverOne = plateau.Rovers.First();
         Assert.Equal(CardinalPoint.NORTH, plateauRoverOne.Cardinal.Key);
-        Assert.Equal(1, plateauRoverOne.X);
-        Assert.Equal(3, plateauRoverOne.Y);
+        Assert.Equal(1, plateauRoverOne.CurrentPosition.X);
+        Assert.Equal(3, plateauRoverOne.CurrentPosition.Y);
 
         var plateauRoverTwo = plateau.Rovers.Last();
         Assert.Equal(CardinalPoint.EAST, plateauRoverTwo.Cardinal.Key);
-        Assert.Equal(5, plateauRoverTwo.X);
-        Assert.Equal(1, plateauRoverTwo.Y);
+        Assert.Equal(5, plateauRoverTwo.CurrentPosition.X);
+        Assert.Equal(1, plateauRoverTwo.CurrentPosition.Y);
     }
 
 
