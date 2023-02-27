@@ -6,6 +6,10 @@ namespace mars_robot.core.Application.UseCases;
 
 public class ParseStringInstructions : IParseInstructions
 {
+    const string PLATEAU_LINE_PATTERN = "(?<x>[0-9])\\s+(?<y>[0-9])";
+    const string ROVER_LINE_PATTERN = $"(?<x>[0-9])\\s+(?<y>[0-9])\\s+(?<card>{CardinalPoint.REGEX_PATTERN})";
+    const string COMMAND_LINE_PATTERN = $"{Direction.REGEX_PATTERN}+";
+    
     public Plateau Plateau { private set; get; }
     public Rover CurrentRover { private set; get; }
 
@@ -47,7 +51,7 @@ public class ParseStringInstructions : IParseInstructions
 
     private Plateau ParsePlateau(string head)
     {
-        var match = Regex.Match(head, "(?<x>[0-9])\\s+(?<y>[0-9])");
+        var match = Regex.Match(head, PLATEAU_LINE_PATTERN);
 
         if (!match.Success)
             throw new InvalidLineException(head);
@@ -61,7 +65,8 @@ public class ParseStringInstructions : IParseInstructions
     private Rover ParseRover(string roverPoints, string roverCommands)
     {
         var roverPointsLine = roverPoints;
-        var roverPointsReg = $"(?<x>[0-9])\\s+(?<y>[0-9])\\s+(?<card>{CardinalPoint.REGEX_PATTERN})";
+        
+        var roverPointsReg = ROVER_LINE_PATTERN;
         var roverPointsMatch = Regex.Match(roverPointsLine, roverPointsReg, RegexOptions.IgnoreCase);
 
         if (!roverPointsMatch.Success)
@@ -78,8 +83,7 @@ public class ParseStringInstructions : IParseInstructions
     private string ParseRoverCommands(string line)
     {
         var roverCommandLine = line;
-        var roverCommandReg = $"{Direction.REGEX_PATTERN}+";
-        var roverCommandMatch = Regex.Match(roverCommandLine, roverCommandReg, RegexOptions.IgnoreCase);
+        var roverCommandMatch = Regex.Match(roverCommandLine, COMMAND_LINE_PATTERN, RegexOptions.IgnoreCase);
         
         if (!roverCommandMatch.Success)
             throw new InvalidLineException(line);

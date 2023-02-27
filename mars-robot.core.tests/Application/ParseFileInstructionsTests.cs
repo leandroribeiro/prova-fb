@@ -38,13 +38,13 @@ public class ParseFileInstructionsTests
 
         var roverOne = plateau.Rovers.First();
         Assert.Equal("LMLMLMLMM", roverOne.Commands);
-        Assert.Equal('N', roverOne.Cardinal.Key);
+        Assert.Equal('N', roverOne.CurrentPosition.Cardinal.Key);
         Assert.Equal(1, roverOne.CurrentPosition.X);
         Assert.Equal(3, roverOne.CurrentPosition.Y);
 
         var roverTwo = plateau.Rovers.Last();
         Assert.Equal("MMRMMRMRRM", roverTwo.Commands);
-        Assert.Equal('E', roverTwo.Cardinal.Key);
+        Assert.Equal('E', roverTwo.CurrentPosition.Cardinal.Key);
         Assert.Equal(5, roverTwo.CurrentPosition.X);
         Assert.Equal(1, roverTwo.CurrentPosition.Y);
     }

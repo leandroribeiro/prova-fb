@@ -62,7 +62,7 @@ public class RoverTests
 
         rover.Run();
 
-        Assert.Equal(cardinalTarget, rover.Cardinal.Key);
+        Assert.Equal(cardinalTarget, rover.CurrentPosition.Cardinal.Key);
         Assert.Equal(x, rover.CurrentPosition.X);
         Assert.Equal(y, rover.CurrentPosition.Y);
     }
@@ -82,7 +82,7 @@ public class RoverTests
 
         rover.Run();
 
-        Assert.Equal(cardinalTarget, rover.Cardinal.Key);
+        Assert.Equal(cardinalTarget, rover.CurrentPosition.Cardinal.Key);
     }
 
     [Theory]
@@ -122,7 +122,7 @@ public class RoverTests
 
         rover.Run();
 
-        Assert.Equal(cardinalTarget, rover.Cardinal.Key);
+        Assert.Equal(cardinalTarget, rover.CurrentPosition.Cardinal.Key);
         Assert.Equal(targetX, rover.CurrentPosition.X);
         Assert.Equal(targetY, rover.CurrentPosition.Y);
     }

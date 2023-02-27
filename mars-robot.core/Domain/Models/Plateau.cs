@@ -2,10 +2,8 @@ namespace mars_robot.core.Domain.Models;
 
 public class Plateau
 {
-    // x axis
     public int AxisXMin;
 
-    // y axis
     public int AxisYMin;
 
     public Plateau(int axisXMax, int axisYMax)

@@ -7,78 +7,106 @@ public class Position
     public const string AXIS_X_KEY = "X";
     public const string AXIS_Y_KEY = "Y";
 
-    public Position(int x, int y)
+    #region Fields
+
+    private readonly int _axisXMin = -1;
+    private readonly int _axisXMax = -1;
+
+    private readonly int _axisYMin = -1;
+    private readonly int _axisYMax = -1;
+
+    #endregion
+
+    #region Properties
+
+    private int _x;
+
+    public int X
+    {
+        get => this._x;
+        private set
+        {
+            if (_axisXMax > -1 && value > _axisXMax)
+                throw new InvalidMovementException(Position.AXIS_X_KEY, value);
+
+            if (_axisXMin > -1 && value < _axisXMin)
+                throw new InvalidMovementException(Position.AXIS_X_KEY, value);
+
+            this._x = value;
+        }
+    }
+
+    private int _y;
+
+    public int Y
+    {
+        get => _y;
+        private set
+        {
+            if (_axisYMax > -1 && value > _axisYMax)
+                throw new InvalidMovementException(Position.AXIS_Y_KEY, value);
+
+            if (_axisYMin > -1 && value < _axisYMin)
+                throw new InvalidMovementException(Position.AXIS_Y_KEY, value);
+
+            this._y = value;
+        }
+    }
+
+    public CardinalPoint Cardinal { private set; get; }
+
+    #endregion
+
+    #region Constructor
+
+    public Position(int x, int y, char cardinalPoint, Plateau plateau) : this(x, y, cardinalPoint)
+    {
+        _axisXMin = plateau.AxisXMin;
+        _axisXMax = plateau.AxisXMax;
+        _axisYMin = plateau.AxisYMin;
+        _axisYMax = plateau.AxisYMax;
+    }
+
+    public Position(int x, int y, char cardinalPoint)
     {
         X = x;
         Y = y;
+        Cardinal = CardinalPoint.Parse(cardinalPoint);
     }
 
-    private int _axisXMin = -1;
-    private int _axisXMax = -1;
+    #endregion
 
-    private int _axisYMin = -1;
-    private int _axisYMax = -1;
-
-    public int X { get; private set; }
-    public int Y { get; private set; }
-
-    public void SetAxisXLimits(int min, int max)
+    public void MoveToLeft()
     {
-        _axisXMin = min;
-        _axisXMax = max;
+        Cardinal = Cardinal.MoveToLeft();
     }
 
-    public void SetAxisYLimits(int min, int max)
+    public void MoveToRight()
     {
-        _axisYMin = min;
-        _axisYMax = max;
+        Cardinal = Cardinal.MoveToRight();
     }
 
-    public void IncreaseY()
+    public void MoveAhead()
     {
-        SetAxisY(Y + 1);
-    }
-
-    public void DecreaseY()
-    {
-        SetAxisY(Y - 1);
-    }
-
-    public void IncreaseX()
-    {
-        SetAxisX(X + 1);
-    }
-
-    public void DecreaseX()
-    {
-        SetAxisX(X - 1);
-    }
-
-    private void SetAxisX(int value)
-    {
-        if (_axisXMax > -1 && value > _axisXMax)
-            throw new InvalidMovementException(Position.AXIS_X_KEY, value);
-
-        if (_axisXMin > -1 && value < _axisXMin)
-            throw new InvalidMovementException(Position.AXIS_X_KEY, value);
-
-        this.X = value;
-    }
-
-
-    private void SetAxisY(int value)
-    {
-        if (_axisYMax > -1 && value > _axisYMax)
-            throw new InvalidMovementException(Position.AXIS_Y_KEY, value);
-
-        if (_axisYMin > -1 && value < _axisYMin)
-            throw new InvalidMovementException(Position.AXIS_Y_KEY, value);
-
-        this.Y = value;
+        switch (Cardinal.Key)
+        {
+            case CardinalPoint.NORTH:
+                Y += 1;
+                break;
+            case CardinalPoint.EAST:
+                X += 1;
+                break;
+            case CardinalPoint.SOUTH:
+                Y -= 1;
+                break;
+            case CardinalPoint.WEST:
+                X -= 1;
+                break;
+        }
     }
 
     public override string ToString()
     {
-        return $"{this.X} {this.Y}";
+        return $"{this.X} {this.Y} {this.Cardinal.Key}";
     }
 }
