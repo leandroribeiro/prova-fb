@@ -20,6 +20,8 @@ sh run.sh
 
 !!!!!!!! Copy the data file(txt) to same directory of .sh file !!!!!!!!
 
+When asked just fill the filename, example 'Data.txt'
+
 ```shell
 sh run-at-docker.sh
 ```
