@@ -1,1 +1,1 @@
-dotnet test mars-robot.sln
+dotnet test ./src/mars-robot.sln --logger:"console;verbosity=detailed"

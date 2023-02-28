@@ -10,16 +10,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{60BFA6F9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{BE403484-810E-4FC2-8789-57F2F94CAF19}"
 	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
-		docs\diagram.png = docs\diagram.png
+		..\README.md = ..\README.md
+		..\docs\diagram.png = ..\docs\diagram.png
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mars-robot.cli", "mars-robot.cli\mars-robot.cli.csproj", "{400009CA-30F6-4BBA-A20B-EAEF0213B724}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{419682A5-9828-4C82-BA1A-19FF89C2B598}"
 	ProjectSection(SolutionItems) = preProject
-		run-tests.sh = run-tests.sh
-		run.sh = run.sh
+		..\run-at-docker.sh = ..\run-at-docker.sh
+		..\run-tests-at-docker.sh = ..\run-tests-at-docker.sh
+		..\run-tests.sh = ..\run-tests.sh
+		..\run.sh = ..\run.sh
 	EndProjectSection
 EndProject
 Global
