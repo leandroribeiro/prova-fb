@@ -15,13 +15,13 @@ void Run()
 
         var input = Console.ReadLine() ?? "";
         var output = parser.Execute(input);
-
+        
         output.Rovers.ForEach(x => Console.WriteLine(x.ToString()));
     }
-    catch (FileNotFoundException)
+    catch (FileNotFoundException ex)
     {
         Console.Clear();
-        Console.WriteLine(Text.Yellow("Ops! The filepath informed doesn't exist, try again?"));
+        Console.WriteLine(Text.Yellow($"Ops! The filepath '{ex.FileName}' informed doesn't exist, try again?"));
         Run();
     }
     catch (InvalidLineException ex)

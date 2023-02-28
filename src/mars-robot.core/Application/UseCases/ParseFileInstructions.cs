@@ -11,7 +11,7 @@ public class ParseFileInstructions : ParseStringInstructions
     public Plateau Execute(string filePath)
     {
         if (!File.Exists(filePath))
-            throw new FileNotFoundException();
+            throw new FileNotFoundException(null, filePath);
 
         var content = File.ReadAllText(filePath);
 
