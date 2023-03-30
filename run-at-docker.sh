@@ -4,4 +4,5 @@ docker run \
   -v $(pwd):/src \
   -w /src \
   mcr.microsoft.com/dotnet/sdk:6.0 \
-  dotnet run --project ./src/mars-robot.cli/mars-robot.cli.csproj
+  dotnet run --project ./src/mars-robot.cli/mars-robot.cli.csproj \
+  $1

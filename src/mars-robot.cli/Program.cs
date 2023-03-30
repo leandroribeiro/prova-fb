@@ -7,22 +7,44 @@ using mars_robot.core.Infrastructure;
 
 var parser = new ParseFileInstructions();
 
-void Run()
+string GetInput(string[] parameters, bool forceUI)
+{
+    string input;
+    
+    if (forceUI == false && parameters.Length == 1)
+    {
+        input = parameters[0];
+    }
+    else
+    {
+        Console.WriteLine(Text.Green("Type the instructions filepath:"));
+        input = Console.ReadLine() ?? "";
+    }
+
+    return input;
+}
+
+void Run(bool forceUI = false)
 {
     try
     {
-        Console.WriteLine(Text.Green("Type the instructions filepath:"));
-
-        var input = Console.ReadLine() ?? "";
+        var input = GetInput(args, forceUI);
         var output = parser.Execute(input);
-        
-        output.Rovers.ForEach(x => Console.WriteLine(x.ToString()));
+
+        for (var index = 0; index < output.Rovers.Count; index++)
+        {
+            var roverID = index + 1;
+
+            Console.WriteLine($"Rover {roverID}");
+            Console.WriteLine(output.Rovers[index].ToString());
+            Console.WriteLine("");
+        }
     }
     catch (FileNotFoundException ex)
     {
         Console.Clear();
         Console.WriteLine(Text.Yellow($"Ops! The filepath '{ex.FileName}' informed doesn't exist, try again?"));
-        Run();
+        Run(true);
     }
     catch (InvalidLineException ex)
     {
