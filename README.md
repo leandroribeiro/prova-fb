@@ -4,37 +4,43 @@
 
 ![Image](./docs/diagram.png)
 
-## Steps
+---
 
-I started this project with the entities and emphasising rich domain and using TDD to driven the code. 
+## Technologies
+- C#
+- .NET 6
+- XUnit
+- Docker
 
 ---
 
 ## How to Run?
 
+
 ```shell
 sh run.sh
 ```
 
-### On Docker
+With Docker
 
-!!!!!!!! Copy the data file(txt) to same directory of .sh file !!!!!!!!
-
-When asked just fill the filename, example 'Data.txt'
 
 ```shell
+# Copy the data file(txt) to same directory of .sh file
+
+# When asked just fill the filename, example 'Data.txt'
+
 sh run-at-docker.sh
 ```
 
 ---
 
-## How to run Tests
+## How to Run Tests
 
 ```shell
 sh run-tests.sh
 ```
 
-### On Docker
+With Docker
 
 ```shell
 sh run-tests-at-docker.sh
