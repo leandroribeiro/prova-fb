@@ -1,4 +1,4 @@
-# Mars Robot Challenger
+# Mars Rover
 
 ## Overview
 
@@ -18,6 +18,10 @@
 
 
 ```shell
+# Option 1
+sh run.sh ${PWD}/data/Sample.txt
+
+# Option 2
 sh run.sh
 ```
 
@@ -25,10 +29,12 @@ With Docker
 
 
 ```shell
-# Copy the data file(txt) to same directory of .sh file
+# Copy the data file(txt) to root directory (same dir of run-at-docker.sh)
 
-# When asked just fill the filename, example 'Data.txt'
+# Option 1
+sh run-at-docker.sh data/Sample.txt
 
+# Option 2
 sh run-at-docker.sh
 ```
 
